@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaroid Frame</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave&display=swap" rel="stylesheet">
+    <style>
+        body, html{
+            width: 1920px;
+            height: 1080px;
+            background:red;
+            font-family: 'Sedgwick Ave', cursive;
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        .polaroid-container{
+            height: 690px;
+            width: 518px;
+            position: absolute;
+            top: -690px;
+            right: 10px;
+            transition: top 2s;
+            transform: rotate(4deg);
+        }
+
+        .polaroid-container.active{
+            top: 0;
+        }
+
+        .polaroid-frame{
+            background-image: url("./polaroid_frame_with_tape.png");
+            height: 690px;
+            width: 518px;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .user-info{
+            width: 380px;
+            height: 180px;
+            position: absolute;
+            z-index: 11;
+            bottom: 25px;
+            left:73px;
+            text-align: center;
+            transform: rotate(-4deg);
+        }
+        .user-picture{
+            width: 380px;
+            height: 380px;
+            position: absolute;
+            z-index: 9;
+            top: 95px;
+            left:73px;
+            background-color: lightgray;
+        }
+
+
+
+        .gifter {
+            color: tomato;
+            position: absolute;
+            top: 76px;
+            left: 76px;
+            transform: rotateX(45deg);
+            font-size: 19px;
+        }
+        .cumulative{
+            display:none;
+            background: url("./star.png");
+            background-size: 100%;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 46px;
+            right: 20px;
+            height: 60px;
+            width: 60px;
+            text-align: center;
+            line-height: 60px;
+            font-size:12px;
+            color: blue;
+        }
+        .cumulative.show{
+            display:block;
+        }
+    </style>
+</head>
+<body>
+<div class="polaroid-container">
+   <div class="polaroid-frame">
+       <div class="gifter"></div>
+       <div class="cumulative"></div>
+   </div>
+   <div class="user-picture"><img src="https://static-cdn.jtvnw.net/jtv_user_pictures/8f4baedc-b123-48ce-837a-4faddff84620-profile_image-300x300.png" width="380" height="380"></div>
+   <div class="user-info"> 
+    <span class="username">SFMoe</span><br> 
+    <span class="tier">Subscribed at Tier 3</span><br>
+    <span class="today">25 Dec 2021</span>
+   </div>
+</div>
+<audio src="./polaroid.mp3" autoplay></audio><!-- this won't autoplay in chrome but seems to work in obs browser source from my testing-->
+
+
+<script>
+
+    window.addEventListener("load", ()=>{
+
+    let polaroidContainer = document.querySelector(".polaroid-container");
+    const queryString = window.location.search;
+    let URLParams = new URLSearchParams(queryString);
+    let user = URLParams.get("user");
+    let proimg = URLParams.get("proimg");
+    let tier = URLParams.get("tier");
+    let message = URLParams.get("message");
+    let gifter = ( URLParams.get("gifter") != "%gifter%")? `gifted by: ${URLParams.get("gifter")}` : "";
+    let cumulative = ( URLParams.get("cumulative") != "%cumulative%")? URLParams.get("cumulative") : 0;
+
+
+  
+    let date = (new Date()).toString().split(' ').splice(1,3).join(' ');
+
+        document.querySelector(".username").innerText = user;
+        document.querySelector(".tier").innerText = `Subscribed ${(tier == "prime")? "with "+tier: "at "+tier}`;
+        document.querySelector(".username").innerText = user;
+        document.querySelector(".today").innerText = date;
+        document.querySelector(".user-picture img").src = proimg;
+        document.querySelector(".gifter").innerText = gifter;
+        if(cumulative){
+            document.querySelector(".cumulative").classList.add("show");
+            document.querySelector(".cumulative").innerText = cumulative;
+        }
+        
+        polaroidContainer.classList.add("active");
+    })
+</script>
+</body>
+</html>
