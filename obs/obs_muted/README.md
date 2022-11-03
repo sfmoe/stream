@@ -2,6 +2,8 @@
 
 A quick little overlay to show when a source is muted.
 
+<img src="https://i.imgur.com/OTQEOgz.png" width="350" alt="a sample of a muted overlay" />
+
 ## Installation
 ---
 
